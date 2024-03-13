@@ -1,4 +1,5 @@
 import numpy as np
+from choices_class import Choices as choices
 
 # Get matrix dimensions from user
 rows = int(input("Enter number of rows (m): "))
@@ -16,40 +17,4 @@ for i in range(rows):
 print("Original matrix:")
 print(matrix)
 
-# Define Identity Matrix
-id = np.identity(rows)
-print("Identity matrix:")
-print(id)
-
-# SPLIT THIS INTO MUTIPLE FILES/CLASSES AND USE CS CONCEPTS TO CREATE THIS PROGRAM
-
-# Find rank
-#work on this
-
-# Find determinant
-#work on this
-
-# Find inverse
-#work on this
-
-# Find eigenvalues
-#work on this
-
-# Find eigenvectors
-#work on this
-
-# Find nullity
-#work on this
-
-# Find dimension
-#work on this
-
-# Find multiplicity
-#work on this
-
-# Find linear (in)depenance
-#work on this
-
-# Find transpose
-print("Transpose of matrix:")
-print(matrix.T)
+choices(matrix)
