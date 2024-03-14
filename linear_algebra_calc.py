@@ -10,7 +10,7 @@ matrix = np.zeros((rows, columns))
 # Populate matrix with user input
 for i in range(rows):
     for j in range(columns):
-        matrix[i][j] = int(input("Enter element at row " + str(i) + " and column " + str(j) + ": "))
+        matrix[i][j] = int(input("Enter element (number) at row " + str(i) + " and column " + str(j) + ": "))
         
 # Print original matrix
 print("Original matrix:")
@@ -31,48 +31,57 @@ class LinAlFuncs:
 
     # Find rank
     def rank(self):
-        print("Rank of matrix:")
+            rank = np.linalg.matrix_rank(self.matrix)
+            print("Rank of matrix:", rank)
         
 
     # Find determinant
     def determinant(self):
-        print("Determinant of matrix:")
+        det = np.linalg.det(self.matrix)
+        print("Determinant of matrix:", det)
 
     # Find inverse
     def inverse(self):
         if rows == columns:
-            print("fart")
-        print("Inverse of matrix:")
+            inv = np.linalg.qr(self.matrix)
+            print("Inverse of matrix:", inv)
+        else:
+            print("Inverse does not exist for non-square matrix")
 
     # Find eigenvalues
     def eigenvalues(self):
-        print("Eigenvalues of matrix:")
+        eigs = np.linalg.eigvals(self.matrix)
+        print("Eigenvalues of matrix:", eigs)
+             
 
     # Find eigenvectors
     def eigenvectors(self):
-        print("Eigenvectors of matrix:")
+        eigvecs = np.linalg.eig(self.matrix)
+        print("Eigenvectors of matrix:", eigvecs)
+        
 
     # Find nullity
     def nullity(self):
-        print("Nullity of matrix:")
+        print("Nullity of matrix:", np.linalg.matrix_rank(self.matrix, tol=None) - self.rows)
+        
 
     # Find dimension
     def dimension(self):
-        print("Dimension of matrix:")
+        print("Dimension of matrix:", self.rows, "x", self.cols)
 
     # Find multiplicity
     def multiplicity(self):
-        print("Multiplicity of matrix:")
+        eigs = np.linalg.eigvals(self.matrix)
+        print("Multiplicity of eigenvalues:")
+        print(np.bincount(np.round(eigs).astype(int)))
 
     # Find linear (in)depenance
     def linear_independence(self):
-        print("Linear indepenance of matrix:")
+        print("Linear (In)Dependance of matrix:", np.linalg.matrix_rank(self.matrix) == min(self.rows, self.cols))
 
     # Find transpose
     def transpose(self):
-        print("Transpose of matrix:")
-        tp = np.transpose(self.matrix)
-        print(tp)
+        print("Transpose of matrix:", np.transpose(self.matrix))
         
 
 
