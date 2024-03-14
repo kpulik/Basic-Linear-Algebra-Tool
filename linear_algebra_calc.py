@@ -31,14 +31,51 @@ class LinAlFuncs:
 
     # Find rank
     def rank(self):
-            rank = np.linalg.matrix_rank(self.matrix)
-            print("Rank of matrix:", rank)
-        
+        rank = np.linalg.matrix_rank(self.matrix)
 
-    # Find determinant
-    def determinant(self):
-        det = np.linalg.det(self.matrix)
+        if rank > min(self.rows, self.cols):
+            print("Error: Rank cannot exceed matrix dimensions")
+            return
+
+        if np.all(self.matrix == 0):
+            print("Rank is 0 (zero matrix)")
+            return
+
+        if self.rows == self.cols:
+            if rank == self.rows:
+                print("Matrix is full rank (invertible)")
+            else:
+                print("Matrix is not full rank (not invertible)")
+
+        print("Rank of matrix:", rank)
+
+
+    def determinant(self, matrix):
+
+        m = self.rows 
+        n = self.cols
+        
+        # Check if matrix is square
+        if m != n:
+            raise ValueError("Matrix must be square")
+
+        if n == 1:
+            return matrix[0,0]
+
+        if n == 2:
+            # Formula for 2x2 determinant
+            return matrix[0,0]*matrix[1,1] - matrix[0,1]*matrix[1,0]
+
+        # Recursive cofactor expansion for nxn matrix
+        det = 0
+        for col in range(n):
+            minor = np.delete(matrix, (col), axis=1) 
+            minor = np.delete(minor, (0), axis=0)
+            cofactor = (-1)**(col+2) * matrix[0, col]  
+            det += cofactor * self.determinant(minor)
+
         print("Determinant of matrix:", det)
+
 
     # Find inverse
     def inverse(self):
