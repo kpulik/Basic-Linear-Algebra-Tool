@@ -50,31 +50,30 @@ class LinAlFuncs:
         print("Rank of matrix:", rank)
 
 
-    def determinant(self, matrix):
-
-        m = self.rows 
+    def determinant(self):
+        m = self.rows
         n = self.cols
-        
+
         # Check if matrix is square
         if m != n:
-            raise ValueError("Matrix must be square")
+            print("Matrix must be square")
+            return
 
         if n == 1:
-            return matrix[0,0]
-
-        if n == 2:
+            det = self.matrix[0, 0]
+        elif n == 2:
             # Formula for 2x2 determinant
-            return matrix[0,0]*matrix[1,1] - matrix[0,1]*matrix[1,0]
+            det = self.matrix[0, 0] * self.matrix[1, 1] - self.matrix[0, 1] * self.matrix[1, 0]
+        else:
+            # Recursive cofactor expansion for nxn matrix
+            det = 0
+            for col in range(n):
+                minor = np.delete(self.matrix, col, axis=1)
+                minor = np.delete(minor, 0, axis=0)
+                cofactor = (-1) ** (col + 2) * self.matrix[0, col]
+                det += cofactor * self.determinant(minor)
 
-        # Recursive cofactor expansion for nxn matrix
-        det = 0
-        for col in range(n):
-            minor = np.delete(matrix, (col), axis=1) 
-            minor = np.delete(minor, (0), axis=0)
-            cofactor = (-1)**(col+2) * matrix[0, col]  
-            det += cofactor * self.determinant(minor)
-
-        print("Determinant of matrix:", det)
+        print(f"Determinant of matrix: {det}")
 
 
     # Find inverse
