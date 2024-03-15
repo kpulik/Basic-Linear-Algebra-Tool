@@ -13,8 +13,8 @@ for i in range(rows):
         matrix[i][j] = int(input("Enter element (number) at row " + str(i) + " and column " + str(j) + ": "))
         
 # Print original matrix
-print("Original matrix:")
-print(matrix)
+print("Original matrix:\n")
+print(matrix,"\n")
 
 class LinAlFuncs:
 
@@ -26,31 +26,33 @@ class LinAlFuncs:
     # Identity Matrix
     def identity(self):
         id = np.identity(self.rows)
-        print("Identity matrix:")
-        print(id)
+        print("Identity matrix:\n")
+        print(id,"\n")
 
     # Find rank
     def rank(self):
         rank = np.linalg.matrix_rank(self.matrix)
 
         if rank > min(self.rows, self.cols):
-            print("Error: Rank cannot exceed matrix dimensions")
+            print("Error: Rank cannot exceed matrix dimensions\n")
             return
 
         if np.all(self.matrix == 0):
-            print("Rank is 0 (zero matrix)")
+            print("Rank is 0 (zero matrix)\n")
             return
 
         if self.rows == self.cols:
             if rank == self.rows:
-                print("Matrix is full rank (invertible)")
+                print("Matrix is full rank (invertible)\n")
             else:
-                print("Matrix is not full rank (not invertible)")
+                print("Matrix is not full rank (not invertible)\n")
 
-        print("Rank of matrix:", rank)
-
+        print("Rank of matrix:\n", rank,"\n")
+        
 
     def determinant(self):
+        print("This determinant function is buggy and needs to be fixed!")
+        '''
         m = self.rows
         n = self.cols
 
@@ -74,15 +76,16 @@ class LinAlFuncs:
                 det += cofactor * self.determinant(minor)
 
         print(f"Determinant of matrix: {det}")
+        '''
 
 
     # Find inverse
     def inverse(self):
         if rows == columns:
-            inv = np.linalg.qr(self.matrix)
-            print("Inverse of matrix:", inv)
+            inv = np.linalg.inv(self.matrix)
+            print("Inverse of matrix:\n", inv)
         else:
-            print("Inverse does not exist for non-square matrix")
+            print("Inverse does not exist for non-square matrix\n")
 
     # Find eigenvalues
     def eigen(self):
@@ -90,29 +93,29 @@ class LinAlFuncs:
             # Calculate eigenvalues and eigenvectors
             eigenvalues, eigenvectors = np.linalg.eig(self.matrix)
 
-            print("Eigenvalues of matrix:")
+            print("Eigenvalues of matrix:\n")
             for eigenval in eigenvalues:
-                print(f"{eigenval:.2f}")
+                print(f"{eigenval:.2f}","\n")
 
-            print("\nEigenvectors of matrix:")
+            print("\nEigenvectors of matrix:\n")
             for eigenvec in eigenvectors.T:
-                print(eigenvec)
+                print(eigenvec,"\n")
 
             # Check for zero eigenvalues
             zero_eigenvalues = np.isclose(eigenvalues, 0)
             if any(zero_eigenvalues):
-                print("\nDirections that get squashed to zero (zero eigenvalues):")
+                print("\nDirections that get squashed to zero (zero eigenvalues):\n")
                 for eigenvec in eigenvectors.T[zero_eigenvalues]:
-                    print(eigenvec)
+                    print(eigenvec,"\n")
 
             # Check for large eigenvalues
             large_eigenvalues = np.abs(eigenvalues) > 1
             if any(large_eigenvalues):
-                print("\nDirections that get stretched or compressed (large eigenvalues):")
+                print("\nDirections that get stretched or compressed (large eigenvalues):\n")
                 for eigenval, eigenvec in zip(eigenvalues[large_eigenvalues], eigenvectors.T[large_eigenvalues]):
-                    print(f"Eigenvalue: {eigenval:.2f}, Eigenvector: {eigenvec}")
+                    print(f"Eigenvalue: {eigenval:.2f}, Eigenvector: {eigenvec}","\n")
         else:
-            print("Must be a square matrix!")
+            print("Must be a square matrix!\n")
              
         
 
@@ -124,17 +127,17 @@ class LinAlFuncs:
         # Calculate the nullity using the Rank-Nullity Theorem
         nullity = columns - rank
         
-        print(f"Rank of the matrix: {rank}")
-        print(f"Nullity of the matrix: {nullity}")
+        print(f"Rank of the matrix: {rank}\n")
+        print(f"Nullity of the matrix: {nullity}\n")
         
         if nullity == 0:
-            print("The matrix has only the trivial solution (x = 0) for the homogeneous system Ax = 0.")
-            print("This indicates that the rows/columns of the matrix are linearly independent (full rank).")
+            print("The matrix has only the trivial solution (x = 0) for the homogeneous system Ax = 0.\n")
+            print("This indicates that the rows/columns of the matrix are linearly independent (full rank).\n")
         else:
-            print(f"The homogeneous system Ax = 0 has {nullity} free variables in its solution.")
-            print("This signifies some level of redundancy or dependence among the rows/columns (less than full rank).")
+            print(f"The homogeneous system Ax = 0 has {nullity} free variables in its solution.\n")
+            print("This signifies some level of redundancy or dependence among the rows/columns (less than full rank).\n")
         
-        print(f"\nRank-Nullity Theorem: rank({rank}) + nullity({nullity}) = {columns} (number of columns in the matrix)")
+        print(f"\nRank-Nullity Theorem: rank({rank}) + nullity({nullity}) = {columns} (number of columns in the matrix)\n")
         
 
 
@@ -144,25 +147,25 @@ class LinAlFuncs:
             # Calculate eigenvalues and eigenvectors
             eigenvalues, eigenvectors = np.linalg.eig(self.matrix)
 
-            print("Algebraic Multiplicity of Eigenvalues:")
+            print("Algebraic Multiplicity of Eigenvalues:\n")
             unique_eigenvalues, counts = np.unique(eigenvalues, return_counts=True)
             for eigenval, count in zip(unique_eigenvalues, counts):
-                print(f"Eigenvalue: {eigenval:.2f}, Algebraic Multiplicity: {count}")
+                print(f"Eigenvalue: {eigenval:.2f}, Algebraic Multiplicity: {count}\n")
 
-            print("\nGeometric Multiplicity of Eigenvalues:")
+            print("\nGeometric Multiplicity of Eigenvalues:\n")
             for eigenval in unique_eigenvalues:
                 eigenvecs = eigenvectors[:, np.isclose(eigenvalues, eigenval)]
                 geometric_multiplicity = np.linalg.matrix_rank(eigenvecs)
-                print(f"Eigenvalue: {eigenval:.2f}, Geometric Multiplicity: {geometric_multiplicity}")
+                print(f"Eigenvalue: {eigenval:.2f}, Geometric Multiplicity: {geometric_multiplicity}\n")
 
-            print("\nRelationship Between Algebraic and Geometric Multiplicities:")
+            print("\nRelationship Between Algebraic and Geometric Multiplicities:\n")
             for eigenval, count, geometric_multiplicity in zip(unique_eigenvalues, counts, [np.linalg.matrix_rank(eigenvecs) for eigenvecs in (eigenvectors[:, np.isclose(eigenvalues, eigenval)] for eigenval in unique_eigenvalues)]):
                 if geometric_multiplicity == count:
-                    print(f"For eigenvalue {eigenval:.2f}, the algebraic and geometric multiplicities are equal ({count}), indicating linearly independent eigenvectors.")
+                    print(f"For eigenvalue {eigenval:.2f}, the algebraic and geometric multiplicities are equal ({count}), indicating linearly independent eigenvectors.\n")
                 else:
-                    print(f"For eigenvalue {eigenval:.2f}, the algebraic multiplicity ({count}) is greater than the geometric multiplicity ({geometric_multiplicity}), suggesting some level of dependence among the eigenvectors.")
+                    print(f"For eigenvalue {eigenval:.2f}, the algebraic multiplicity ({count}) is greater than the geometric multiplicity ({geometric_multiplicity}), suggesting some level of dependence among the eigenvectors.\n")
         else:
-            print("Must be a square matrix!")
+            print("Must be a square matrix!\n")
 
     # Find linear dependance
     def linear_independence(self):
@@ -173,32 +176,32 @@ class LinAlFuncs:
         if rows == columns:
             # For square matrices, check if rank is equal to the number of rows/columns
             if rank == rows:
-                print("The matrix is linearly independent.")
+                print("The matrix is linearly independent.\n")
             else:
-                print("The matrix is linearly dependent.")
+                print("The matrix is linearly dependent.\n")
         else:
             # For non-square matrices, check if rank is equal to the smaller dimension
             if rank == min(rows, columns):
-                print("The matrix is linearly independent.")
+                print("The matrix is linearly independent.\n")
             else:
-                print("The matrix is linearly dependent.")
+                print("The matrix is linearly dependent.\n")
         
         # Find the number of dependent columns/rows
         num_dependent = columns - rank
         if num_dependent > 0:
-            print(f"There are {num_dependent} linearly dependent columns/rows in the matrix.")
+            print(f"There are {num_dependent} linearly dependent columns/rows in the matrix.\n")
         else:
-            print("There are no linearly dependent columns/rows in the matrix.")
+            print("There are no linearly dependent columns/rows in the matrix.\n")
         
         # Find the linearly independent columns/rows
         independent_cols = np.nonzero(np.sum(np.abs(self.matrix), axis=0) != 0)[0]
         independent_rows = np.nonzero(np.sum(np.abs(self.matrix), axis=1) != 0)[0]
         
-        print("\nLinearly independent columns:")
-        print(independent_cols)
+        print("\nLinearly independent columns:\n")
+        print(independent_cols,"\n")
         
-        print("\nLinearly independent rows:")
-        print(independent_rows)
+        print("\nLinearly independent rows:\n")
+        print(independent_rows,"\n")
 
 
 f = LinAlFuncs(matrix, rows, columns)
@@ -229,8 +232,8 @@ while True:
         f.multiplicity()
         f.linear_independence()
     elif choice == "exit":
-        print("Exiting program.")
+        print("Exiting program.\n")
         break
     else:
-        print("Invalid choice.")
+        print("Invalid choice.\n")
         continue
