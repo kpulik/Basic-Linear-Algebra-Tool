@@ -51,32 +51,19 @@ class LinAlFuncs:
         
 
     def determinant(self):
-        print("This determinant function is buggy and needs to be fixed!")
-        '''
-        m = self.rows
-        n = self.cols
+        matrix = self.matrix  # Use the matrix attribute of the class
+        # Base case: if the matrix is a 2x2 matrix
+        if len(matrix) == 2 and len(matrix[0]) == 2:
+            return matrix[0][0]*matrix[1][1] - matrix[0][1]*matrix[1][0]
 
-        # Check if matrix is square
-        if m != n:
-            print("Matrix must be square")
-            return
+        # Recursive case
+        det = 0
+        for c in range(len(matrix)):
+            minor = np.concatenate((matrix[1:,:c], matrix[1:,c+1:]), axis=1) # Create minor
+            minor_laf = LinAlFuncs(minor, len(minor), len(minor[0])) # Create new instance with minor
+            det += ((-1)**c) * matrix[0][c] * minor_laf.determinant() # Call determinant on new instance
+        print("Determinant of matrix:\n", det,"\n")
 
-        if n == 1:
-            det = self.matrix[0, 0]
-        elif n == 2:
-            # Formula for 2x2 determinant
-            det = self.matrix[0, 0] * self.matrix[1, 1] - self.matrix[0, 1] * self.matrix[1, 0]
-        else:
-            # Recursive cofactor expansion for nxn matrix
-            det = 0
-            for col in range(n):
-                minor = np.delete(self.matrix, col, axis=1)
-                minor = np.delete(minor, 0, axis=0)
-                cofactor = (-1) ** (col + 2) * self.matrix[0, col]
-                det += cofactor * self.determinant(minor)
-
-        print(f"Determinant of matrix: {det}")
-        '''
 
 
     # Find inverse
