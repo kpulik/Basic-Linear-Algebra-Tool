@@ -18,6 +18,7 @@ print(matrix,"\n")
 
 class LinAlFuncs:
 
+    # Constructor
     def __init__(self, matrix, rows, cols):
         self.matrix = matrix
         self.rows = rows
@@ -50,6 +51,7 @@ class LinAlFuncs:
         print("Rank of matrix:\n", rank,"\n")
         
 
+    # Find determinant
     def determinant(self):
         matrix = self.matrix  # Use the matrix attribute of the class
         # Base case: if the matrix is a 2x2 matrix
@@ -189,12 +191,139 @@ class LinAlFuncs:
         
         print("\nLinearly independent rows:\n")
         print(independent_rows,"\n")
+        
+    
+    # Addition
+    def addition(self):
+        num_matrices = int(input("Enter the number of matrices to add: "))
+        
+        for _ in range(num_matrices):
+            addition_matrix = np.zeros((self.rows, self.cols))  # Initialize a matrix to add
+            
+            # Populate the addition matrix with user input
+            for i in range(self.rows):
+                for j in range(self.cols):
+                    addition_matrix[i][j] = int(input("Enter element (number) at row " + str(i) + " and column " + str(j) + ": "))
+            
+            print("Matrix being added:\n")
+            print(addition_matrix, "\n")  # Print the current addition matrix
+            
+            if addition_matrix.shape == self.matrix.shape:
+                self.matrix += addition_matrix
+            else:
+                print("Cannot add matrices with different dimensions.")
+
+        print("Updated matrix after addition of all input matrices:\n")
+        print(self.matrix, "\n")
+        
+        
+    # Subtraction
+    def subtraction(self):
+        num_matrices = int(input("Enter the number of matrices to subtract: "))
+        
+        for _ in range(num_matrices):
+            subtraction_matrix = np.zeros((self.rows, self.cols))  # Initialize a matrix to subtract
+            
+            # Populate the subtraction matrix with user input
+            for i in range(self.rows):
+                for j in range(self.cols):
+                    subtraction_matrix[i][j] = int(input("Enter element (number) at row " + str(i) + " and column " + str(j) + ": "))
+            
+            print("Matrix being subtracted:\n")
+            print(subtraction_matrix, "\n")  # Print the current subtraction matrix
+            
+            if subtraction_matrix.shape == self.matrix.shape:
+                self.matrix -= subtraction_matrix
+            else:
+                print("Cannot subtract matrices with different dimensions.")
+
+        print("Updated matrix after subtraction of all input matrices:\n")
+        print(self.matrix, "\n")
+    
+    
+    # Multiplication
+    def multiplication(self):
+        num_matrices = int(input("Enter the number of matrices to multiply: "))
+
+        for _ in range(num_matrices):
+            multiplication_matrix = np.zeros((self.rows, self.cols))  # Initialize a matrix to multiply
+
+            # Populate the multiplication matrix with user input
+            for i in range(self.rows):
+                for j in range(self.cols):
+                    multiplication_matrix[i][j] = int(input("Enter element (number) at row " + str(i) + " and column " + str(j) + ": "))
+
+            print("Matrix being multiplied:\n")
+            print(multiplication_matrix, "\n")  # Print the current multiplication matrix
+
+            if multiplication_matrix.shape[1] == self.matrix.shape[0]:
+                # Multiply the matrices using np.dot()
+                self.matrix = np.dot(self.matrix, multiplication_matrix)
+            else:
+                print("Number of rows in the multiplication matrix must be equal to the number of columns in the original matrix for multiplication.")
+        
+        print("Updated matrix after multiplication with all input matrices:\n")
+        print(self.matrix, "\n")
+
+    
+    # Division
+    def division(self):
+        num_matrices = int(input("Enter the number of matrices to divide: "))
+
+        for _ in range(num_matrices):
+            division_matrix = np.zeros((self.rows, self.cols))  # Initialize a matrix to divide
+
+            # Populate the division matrix with user input
+            for i in range(self.rows):
+                for j in range(self.cols):
+                    division_matrix[i][j] = int(input("Enter element (number) at row " + str(i) + " and column " + str(j) + ": "))
+
+            print("Matrix to divide by:\n")
+            print(division_matrix, "\n")  # Print the current division matrix
+
+            if division_matrix.shape[0] == division_matrix.shape[1]:
+                # Calculate the inverse of the division matrix
+                inverse_matrix = np.linalg.inv(division_matrix)
+
+                if inverse_matrix.shape[0] == self.matrix.shape[1]:  # Check compatibility for matrix division
+                    # Perform matrix division by multiplying the original matrix with the inverse matrix
+                    self.matrix = np.dot(self.matrix, inverse_matrix)
+                else:
+                    print("Number of columns in the division matrix must be equal to the number of rows in the original matrix for division.")
+            else:
+                print("Division matrix must be square for matrix division.")
+
+        print("Updated matrix after division with all input matrices:\n")
+        print(self.matrix, "\n")
+
+
+    # Diagonalization
+    def diagonalization(self):
+        if self.rows == self.cols:
+            eigenvalues, eigenvectors = np.linalg.eig(self.matrix)
+            D = np.diag(eigenvalues)  # Construct the diagonal matrix D
+            P = eigenvectors  # Eigenvectors as columns to form matrix P    
+            P_inv = np.linalg.inv(P)  # Calculate the inverse of matrix P    
+            diagonalized_matrix = np.dot(np.dot(P, D), P_inv)  # Calculate A = PDP^-1   
+            print("Matrix A:\n")
+            print(self.matrix, "\n")    
+            print("Matrix D:\n")
+            print(D, "\n")    
+            print("Matrix P:\n")
+            print(P, "\n")    
+            print("Matrix P^-1:\n")
+            print(P_inv, "\n")    
+            print("Diagonalized matrix A = PDP^-1:\n")
+            print(diagonalized_matrix, "\n")
+        else:
+            print("Matrix must be square for diagonalization.\n")
+
 
 
 f = LinAlFuncs(matrix, rows, columns)
 
 while True:
-    choice = input("What would you like to do with the matrix? (Type 'rank', 'det', 'inv', 'eig', 'null', 'mult', 'lindep', 'all', or 'exit'): ")
+    choice = input("What would you like to do with the matrix? (Type 'rank', 'det', 'inv', 'eig', 'null', 'multiplicity', 'lindep', 'add', 'sub', 'mult', 'div', 'diag', or 'exit'): ")
 
     if choice == "rank":
         f.rank()
@@ -206,18 +335,20 @@ while True:
         f.eigen()
     elif choice == "null":
         f.nullity()
-    elif choice == "mult":
+    elif choice == "multiplicity":
         f.multiplicity()
     elif choice == "lindep":
         f.linear_independence()
-    elif choice == "all":
-        f.rank()
-        f.determinant()
-        f.inverse()
-        f.eigen()
-        f.nullity()
-        f.multiplicity()
-        f.linear_independence()
+    elif choice == "add":
+        f.addition()
+    elif choice == 'sub':
+        f.subtraction()
+    elif choice == 'mult':
+        f.multiplication()
+    elif choice == 'div':
+        f.division()
+    elif choice == 'diag':
+        f.diagonalization()
     elif choice == "exit":
         print("Exiting program.\n")
         break
