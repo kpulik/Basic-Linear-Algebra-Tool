@@ -1,26 +1,27 @@
-
 # Matrix Operations Program
 
 This program allows you to perform various matrix operations in Python, including calculating the rank, determinant, inverse, eigenvalues, nullity, multiplicity, and checking for linear independence.
 
 ### Features:
 
-- **Input Matrix:** Define the dimensions of the matrix and input matrix elements.
-- **Matrix Operations:** Compute individual matrix operations such as:
+**Input Matrix:** Define the dimensions of the matrix and input matrix elements.
 
-  - rank
-  - determinant
-  - inverse
-  - eigenvectors and eigenvalues
-  - nullity
-  - multiplicity
-  - checking for linear independence
-  - addition
-  - subtracion
-  - multiplication
-  - division
-  - diagonalization.
-- **How to Use:**
+**Matrix Operations:** Compute individual matrix operations such as:
+
+- rank
+- determinant
+- inverse
+- eigenvectors and eigenvalues
+- nullity
+- multiplicity
+- checking for linear independence
+- addition
+- subtracion
+- multiplication
+- division
+- diagonalization.
+
+**How to Use:**
 
 1. **Run the Program:** Start the program in a Python environment.
 2. **Matrix Dimensions:** Set the number of rows and columns for the matrix.
